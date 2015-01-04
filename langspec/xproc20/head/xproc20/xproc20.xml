@@ -2,13 +2,15 @@
   <info>
     <title>XProc 2.0: An XML Pipeline Language</title>
     <w3c-shortname>xproc20</w3c-shortname>
-    <!-- defaults to date formatted <pubdate>2014-08-20</pubdate> -->
+    <!-- defaults to date formatted <pubdate>2014-12-18</pubdate> -->
 
     <bibliorelation role="x-no-errata" type="references" xlink:href="http://www.w3.org/XML/2010/xproc-errata.html">errata</bibliorelation>
     <bibliorelation role="x-no-translations" type="references" xlink:href="http://www.w3.org/2003/03/Translations/byTechnology?technology=xproc">translations</bibliorelation>
 
-    <bibliorelation type="isformatof" xlink:href="langspec.xml">XML</bibliorelation>
+    <bibliorelation type="isformatof" xlink:href="xproc20.xml">XML</bibliorelation>
+<!--
     <bibliorelation type="isformatof" xlink:href="changelog.html">ChangeLog</bibliorelation>
+-->
 
 <!--
     <bibliorelation type="replaces" xlink:href="http://www.w3.org/TR/2010/PR-xproc-20100309/"/>
@@ -58,9 +60,9 @@
 describing operations to be performed on documents.</para>
 
 <para>An XML Pipeline specifies a sequence of operations to be
-performed on zero or more documents. Pipelines generally accept
-zero or more documents as input and produce zero or more
-documents as output. Pipelines are made up of simple steps which
+performed on documents. Pipelines generally accept
+documents as input and produce documents as output.
+Pipelines are made up of simple steps which
 perform atomic operations on documents and constructs similar to
 conditionals, iteration, and exception handlers which control which
 steps are executed.</para>
@@ -71,25 +73,44 @@ steps are executed.</para>
 <para><emphasis>This section describes the status of this document at
 the time of its publication. Other documents may supersede this
 document. A list of current W3C publications and the latest revision
-of this technical report can be found in the <link xlink:href="http://www.w3.org/TR/">W3C technical reports index</link>
-at http://www.w3.org/TR/.</emphasis></para>
+of this technical report can be found in the
+<link xlink:href="http://www.w3.org/TR/">W3C technical reports index</link> at
+http://www.w3.org/TR/.</emphasis></para>
 
-<para>This document is an editor's draft without normative standing.
+<para>Publication as a First Public Working Draft does not imply
+endorsement by the W3C Membership. This is a draft document and may be
+updated, replaced or obsoleted by other documents at any time. It is
+inappropriate to cite this document as other than work in
+progress.
+The significant changes in this draft are summarized in
+<xref linkend="changelog"/>.
+</para>
+
+<para><!--This document is an editor's draft without normative standing.
 It implements the requirements and use cases
-documented in <biblioref linkend="use-cases"/>. This document is a
+documented in <biblioref linkend="use-cases"/>.-->This document is a
 product of the
 <link xlink:href="http://www.w3.org/XML/Processing/">XML Processing Model
 Working Group</link>
 as part of the W3C
 <link xlink:href="http://www.w3.org/XML/Activity">XML Activity</link>.
+This draft is a first attempt to address some of the requirements of
+<biblioref linkend="use-cases"/>. It is in many ways substantially incomplete.
+The Working Group is publishing it in order to establish an intended direction
+and to provide an official opportunity for comment.
 </para>
 
 <para>Please report errors in this document by
 <link xlink:href="https://github.com/xproc/specification/issues">raising
 issues</link> on the
 <link xlink:href="https://github.com/xproc/specification">specification
-repository</link>.</para>
+repository</link>.
+Alternatively, you may report errors in this document to the public
+mailing list
+<link xlink:href="mailto:public-xml-processing-model-comments@w3.org">public-xml-processing-model-comments@w3.org</link> (public
+<link xlink:href="http://lists.w3.org/Archives/Public/public-xml-processing-model-comments/">archives</link> are available).</para>
 
+<!--
 <para>There is an
 <link xlink:href="http://www.w3.org/XML/XProc/2010/02/ir.html">Implementation
 Report for XProc 1.0</link>. It documents the performance of implementations
@@ -97,6 +118,7 @@ against the
 <link xlink:href="http://tests.xproc.org/">XProc 1.0 Test Suite</link>.
 At this time, there are no such reports for XProc 2.0.
 </para>
+-->
 
 <para>This document was produced by a group operating under the <link xlink:href="http://www.w3.org/Consortium/Patent-Policy-20040205/">5
 February 2004 W3C Patent Policy</link>. W3C maintains a <link xlink:href="http://www.w3.org/2004/01/pp-impl/38398/status">public
@@ -107,27 +129,41 @@ patent which the individual believes contains <link xlink:href="http://www.w3.or
 Claim(s)</link> must disclose the information in accordance with <link xlink:href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section
 6 of the W3C Patent Policy</link>.</para>
 
+<para>This document is governed by the
+<link xml:id="w3c_process_revision" xlink:href="http://www.w3.org/2005/10/Process-20051014/">14 October 2005 W3C Process Document</link>.</para>
 </legalnotice>
 </info>
 
 <section xml:id="introduction">
-    <title>Introduction</title>
-    <para>An XML Pipeline specifies a sequence of operations to be performed on a collection of XML
-      input documents. Pipelines take zero or more documents as their input and produce zero or
-      more documents as their output.</para>
-    <para>A <glossterm>pipeline</glossterm> consists of steps. Like pipelines, steps take zero or
-      more documents as their inputs and produce zero or more documents as their outputs.
-      The inputs of a step come from the web, from the pipeline document, from the inputs to the
-      pipeline itself, or from the outputs of other steps in the pipeline. The outputs from a step
-      are consumed by other steps, are outputs of the pipeline as a whole, or are discarded.</para>
-    <para>There are three kinds of steps: atomic steps, compound steps, and multi-container steps.
-      Atomic steps carry out single operations and have no substructure as far as the pipeline is
-      concerned. Compound steps and multi-container steps control the execution of other steps,
-      which they include in the form of one or more subpipelines.</para>
-    <para>This specification defines a standard library, <xref linkend="std-components"/>, of steps.
-      Pipeline implementations <rfc2119>may</rfc2119> support additional types of steps as well. </para>
-    <para><xref linkend="fig-xival"/> is a graphical representation of a simple pipeline that
-      performs XInclude processing and validation on a document.</para>
+<title>Introduction</title>
+
+<para>An XML Pipeline specifies a sequence of operations to be
+performed on a collection of input documents. Pipelines take documents
+as their input and produce documents as their output.</para>
+
+<para>A <glossterm>pipeline</glossterm> consists of steps. Like
+pipelines, steps take documents as their inputs and
+produce documents as their outputs. The inputs of a step
+come from the web, from the pipeline document, from the inputs to the
+pipeline itself, or from the outputs of other steps in the pipeline.
+The outputs from a step are consumed by other steps, are outputs of
+the pipeline as a whole, or are discarded.</para>
+
+<para>There are three kinds of steps: atomic steps, compound steps,
+and multi-container steps. Atomic steps carry out single operations
+and have no substructure as far as the pipeline is concerned. Compound
+steps and multi-container steps control the execution of other steps,
+which they include in the form of one or more subpipelines.</para>
+
+<para><biblioref linkend="std-components"/>
+defines a standard library of steps. Pipeline implementations
+<rfc2119>may</rfc2119> support additional types of steps as well.
+</para>
+
+<para><xref linkend="fig-xival"/> is a graphical representation of a
+simple pipeline that performs XInclude processing and validation on a
+document.</para>
+
     <figure xml:id="fig-xival">
       <title>A simple, linear XInclude/Validate pipeline</title>
       <mediaobject>
@@ -285,14 +321,19 @@ free.</para>
         can have options.</para>
       <para>There are three kinds of steps: <glossterm baseform="atomic step">atomic</glossterm>,
           <glossterm baseform="compound step">compound</glossterm>, and <glossterm baseform="multi-container step">multi-container</glossterm>.</para>
-      <para><termdef xml:id="dt-atomic-step">An <firstterm>atomic step</firstterm> is a step that
-          performs a unit of XML processing, such as XInclude or transformation, and has no internal
-            <glossterm>subpipeline</glossterm>. </termdef> Atomic steps carry out fundamental XML
-        operations and can perform arbitrary amounts of computation, but they are indivisible. An
-        XSLT step, for example, performs XSLT processing; a Validate with XML Schema step validates
-        one input with respect to some set of XML Schemas, etc.</para>
+
+<para><termdef xml:id="dt-atomic-step">An <firstterm>atomic
+step</firstterm> is a step that performs a unit of processing
+on its input,
+such as XInclude or transformation, and has no internal
+<glossterm>subpipeline</glossterm>. </termdef> Atomic steps carry out
+fundamental operations and can perform arbitrary amounts of
+computation, but they are indivisible. An XSLT step, for example,
+performs XSLT processing; a Validate with XML Schema step validates
+one input with respect to some set of XML Schemas, etc.</para>
+
       <para>There are many <emphasis>types</emphasis> of atomic steps. The standard library of
-        atomic steps is described in <xref linkend="std-components"/>, but implementations
+        atomic steps is described in <biblioref linkend="std-components"/>, but implementations
           <rfc2119>may</rfc2119> provide others as well. <impl>It is
             <glossterm>implementation-defined</glossterm> what additional step types, if any, are
           provided. </impl> Each use, or instance, of an atomic step invokes the processing defined
@@ -337,7 +378,7 @@ free.</para>
           last step in document order.</termdef></para>
       <para xml:id="p.subpipeline" role="element-syntax element-syntax-language-construct hanging-indent">
         <code>subpipeline</code> = <tag>p:variable</tag>*, (<tag>p:for-each</tag>|<tag>p:viewport</tag>|<tag>p:choose</tag>|<tag>p:group</tag>|<tag>p:try</tag>|<code xlink:href="#p.atomic">p:<replaceable>standard-step</replaceable></code>|<code xlink:href="#p.atomic"><replaceable>pfx:user-pipeline</replaceable></code>)+ </para>
-      <note>
+      <note xml:id="note-udp">
         <para>User-defined pipelines (identified with
               <code><replaceable>pfx:user-pipeline</replaceable></code> in the preceding syntax
           summary) are atomic. A pipeline <emphasis>declaration</emphasis> may contain a
@@ -465,7 +506,8 @@ in an XProc pipeline is <glossterm>implementation-defined</glossterm>.</impl>
 are <glossterm>implementation-dependent</glossterm>.</impl>
 </para>
 
-<para>FIXME: implementors are free to optimize, etc.</para>
+<para>Implementors are free to optimize by storing them in convenient
+formats, caching them on disk, etc.</para>
 
 </section>
 </section>
@@ -618,7 +660,7 @@ that set.</error>
         </para>
         <para>Version 2.0 of XProc does not require implementations to guarantee that multiple
           attempts to dereference the same URI always produce consistent results.</para>
-        <note>
+        <note xml:id="note-unsatisfying">
           <para>On the one hand, this is a somewhat unsatisfying state of affairs because it leaves
             room for interoperability problems. On the other, it is not expected to cause such
             problems very often in practice. </para>
@@ -764,12 +806,12 @@ that set.</error>
           for <glossterm>namespace fixup</glossterm>. In particular, processors are encouraged to
           take account of prefix information in creating new namespace bindings, to minimize
           negative impact on prefixed names in content.</para>
-        <para><impl>Except for cases which are specifically called out in <xref linkend="std-components"/>, the extent to which namespace fixup, and other checks for
+        <para><impl>Except for cases which are specifically called out in <biblioref linkend="std-components"/>, the extent to which namespace fixup, and other checks for
             outputs which cannot be serialized, are performed on intermediate outputs is
               <glossterm>implementation-defined</glossterm>.</impl></para>
         <para>Whenever an implementation serializes pipeline contents, for example for pipeline
           outputs, logging, or as part of steps such as <tag>p:store</tag> or
-            <tag>p:http-request</tag>, it is a <link xlink:href="#err.D0001">dynamic error</link> if
+            <tag>p:http-request</tag>, it is a dynamic error if
           that serialization could not be done so as to produce a document which is both well-formed
           and namespace-well-formed, as specified in <glossterm>XML</glossterm> and
             <glossterm>Namespaces in XML</glossterm>, regardless of what serialization method, if
@@ -994,7 +1036,7 @@ with the following static context:</para>
               <listitem>
                 <para>The union of the in-scope <glossterm>specified options</glossterm> and
                   variables are available as variable bindings to the XPath processor. </para>
-                <note>
+                <note xml:id="note-no-value">
                   <para>An option that has neither a specified value nor a default value will not
                     appear as an in-scope variable. Consequently, an attempt to refer to that
                     variable will raise an error.</para>
@@ -1277,7 +1319,7 @@ readable port then the context node is undefined.</para>
               </listitem>
             </varlistentry>
           </variablelist>
-          <note>
+          <note xml:id="note-amendments">
             <para>Some steps may also provide for implementation-defined or implementation-dependent
               amendments to the contexts. Those amendments are in addition to any specified by
               XProc.</para>
@@ -1320,7 +1362,7 @@ evaluated by the processor.</para>
                 of the pipeline processor. In other words, if a processor is run several times in
                 succession, or if several processors are running simultaneously, each invocation of
                 each processor should get a distinct value from <varname>p:episode</varname>.</para>
-              <para>The unique identifier must be a valid <link xlink:href="http://www.w3.org/TR/XML#NT-Name">XML name</link>. </para>
+              <para>The unique identifier must be a valid <link xlink:href="http://www.w3.org/TR/xml/#NT-Name">XML name</link>. </para>
             </listitem>
           </varlistentry>
           <varlistentry>
@@ -1585,7 +1627,7 @@ are added to the map that is returned.
 if any of the <tag>c:param</tag> elements are invalid.</error>
 </para>
 
-<note role="editorial">
+<note xml:id="ednote-what-is-valid" role="editorial">
 <title>Editorial Note</title>
 <para>Must tie down what “valid” means wrt the c:param element.</para>
 </note>
@@ -1606,7 +1648,7 @@ of a document as a map.</para>
 <para>The map returned contains (exclusively) the document properties
 associated with the <parameter>doc</parameter> specified.</para>
 
-<note>
+<note xml:id="ednote-non-xml-props">
 <title>Editorial Note</title>
 <para>This function is only defined on XML documents but clearly the
 intent is that it should work on any kind of document. How can we
@@ -1692,7 +1734,7 @@ do that?</para>
           </para>
         </listitem>
       </orderedlist>
-      <note>
+      <note xml:id="note-psvi">
         <para>A processor that supports passing PSVI properties between steps is always free to do
           so. Even if <code>psvi-required="false"</code> is explicitly specified, it is not an error
           for a step to produce a result that includes additional PSVI properties, provide it does
@@ -1703,22 +1745,137 @@ do that?</para>
 <section xml:id="value-templates">
 <title>Value Templates</title>
 
+<para>The string value of an attribute or text node in a pipeline
+may, in particular circumstances, contain embedded expressions enclosed
+between curly brackets. Attributes and text nodes that use (or are
+permitted to use) this mechanism are referred to respectively as
+<glossterm>attribute value templates</glossterm> and
+<glossterm>text value templates.</glossterm>.</para>
+
+<para><termdef xml:id="dt-value-template">Collectively,
+attribute value templates and text value templates are referred to as
+<firstterm baseform="value template">value templates</firstterm>.</termdef>
+</para>
+
+<para>A value template is a string consisting of an alternating sequence
+of fixed parts and variable parts. A variable part consists of an
+XPath expression enclosed in curly brackets (<code>{}</code>). A fixed
+part may contain any characters, except that a left curly bracket
+<rfc2119>must</rfc2119> be written as <code>{{</code> and a right
+curly bracket <rfc2119>must</rfc2119> be written as <code>}}</code>.
+If the XPath expression ends with a closing curly bracket, this must
+be separated from the delimiting closing bracket by whitespace. If the
+XPath expression starts with an opening curly bracket, this must be
+preceded by whitespace, to avoid misinterpretation as an escaped
+<code>{{</code> sequence.</para>
+
+<note xml:id="note-curly">
+<para>An expression within a variable part may contain an unescaped curly
+bracket within a string literals or within a comment.</para>
+
+<para>Currently no XPath expression starts with an opening curly
+bracket, so the use of <code>{{</code> creates no ambiguity. If an
+enclosed expression ends with a closing curly bracket, no whitespace
+is required between this and the closing delimiter.</para>
+</note>
+
+<para>
+<error code="S1003">It is a <glossterm>static error</glossterm> if an
+unescaped left curly bracket appears in a fixed part of a value
+template without a matching right curly bracket or if an unescaped
+right curly bracket appears in the fixed part of a value template.</error>
+</para>
+
+<para>It is a static error if the string contained between matching curly
+brackets in a value template, when interpreted as an XPath expression,
+contains errors. The error is signaled using the appropriate
+XPath error code.</para>
+
+<para><termdef xml:id="dt-effective-value">The result of evaluating a
+value template is referred to as its <firstterm>effective
+value</firstterm>.</termdef> The effective value is the string
+obtained by concatenating the expansions of the fixed and variable
+parts:</para>
+
+<itemizedlist>
+<listitem>
+<para>The expansion of a fixed part is obtained by replacing any double curly
+brackets (<code>{{</code> or <code>}}</code>) by the corresponding single curly
+bracket.</para>
+</listitem>
+<listitem>
+<para>The expansion of a variable part is obtained by evaluating the enclosed
+XPath expression and converting the
+resulting value to a string.</para>
+</listitem>
+</itemizedlist>
+
+<note xml:id="note-dynerr">
+<para>This process can generate dynamic errors, for example if the
+sequence contains an element with a complex content type (which cannot
+be atomized).</para>
+</note>
+
+<para>In the case of an attribute value template, the effective value
+becomes the string value of the new attribute node. In the case of a
+text value template, the effective value becomes the string value of
+the new text node.</para>
+
 <section xml:id="attribute-value-templates">
 <title>Attribute Value Templates</title>
 
-<para><termdef xml:id="dt-attribute-value-template">An
-<firstterm>attribute value template</firstterm> is FIXME: the obvious
-concept from XSLT.</termdef>
-</para>
+<para><termdef xml:id="dt-attribute-value-template">In an attribute
+that is designated as an <firstterm>attribute value
+template</firstterm>, an expression can be used by surrounding the
+expression with curly brackets (<code>{}</code>), following the
+general rules for <glossterm>value
+templates</glossterm></termdef>.</para>
+
+<para>Curly brackets are not treated specially in an attribute value
+in an XProc pipeline unless the attribute is specifically designated
+as one that permits an attribute value template. Option shortcuts permit
+attribute value templates. In an element syntax
+summary, the value of other such attributes is surrounded by curly
+brackets.</para>
+
+<para>Curly brackets are <emphasis>not</emphasis> recognized recursively
+inside expressions.</para>
 </section>
 
 <section xml:id="text-value-templates">
 <title>Text Value Templates</title>
 
-<para><termdef xml:id="dt-text-value-template">A
-<firstterm>text value template</firstterm> is FIXME: the obvious concept from
-XSLT 3.0.</termdef>
+<para>The <tag class="attribute">expand-text</tag> attribute may appear on
+<tag>p:inline</tag> (and its parents in the case where the
+<tag>p:inline</tag> is omitted) and determines whether descendant text
+nodes of that element are treated as text value templates.</para>
+
+<para>This section describes how text nodes are processed when the
+effective value of <tag class="attribute">expand-text</tag>
+is <code>true</code>. Such
+text nodes are referred to as text value templates.</para>
+
+<para><termdef xml:id="dt-text-value-template">In a
+text node that is designated as a <firstterm>text value template</firstterm>,
+expressions can be used by surrounding each expression with curly
+brackets (<code>{}</code>).</termdef>
 </para>
+
+<para>The rules for text value templates are given in <xref linkend="value-templates"/>. A text node whose value is a text value
+template results in the construction of a text node in the result. The
+string value of that text node is obtained by computing the effective
+value of the value template.</para>
+
+<note xml:id="note-result-of-tvt">
+<para>The result of evaluating a text value template is a (possibly
+zero-length) text node. This text node becomes part of the result and
+is thereafter handled exactly as if the value had appeared explicitly
+as a text node in the stylesheet.</para>
+<para>Fixed parts consisting entirely of whitespace are significant
+and are handled in the same way as any other fixed part. This is
+different from the default treatment of "boundary space" in
+XQuery.</para>
+</note>
 </section>
 </section>
 
@@ -1822,7 +1979,7 @@ the <tag class="attribute">version</tag> attribute <rfc2119>must</rfc2119> be a
 <type>xs:decimal</type>.</error></para>
 
 <para>The version of XProc defined
-by this specification is “<literal>1.0</literal>”.</para>
+by this specification is “<literal>2.0</literal>”.</para>
 
 <para>A pipeline author <rfc2119>must</rfc2119> identify the version of XProc
 on the document element of a pipeline document.
@@ -2303,7 +2460,7 @@ are effectively excluded from the pipeline document. If a node is effectively
 excluded, the processor <rfc2119>must</rfc2119> behave as if the element
 was not present in the document.</para>
 
-<para>Elements that are not in the XProc namespace <rfc2119>may</rfc2119> also
+<para xml:id="p.use-when">Elements that are not in the XProc namespace <rfc2119>may</rfc2119> also
 have a <tag class="attribute">use-when</tag> attribute, but the attribute must
 be in the XProc namespace. The semantics of a
 <tag class="attribute">p:use-when</tag> attribute
@@ -2314,7 +2471,8 @@ namespace.</para>
 <para>Conditional element exclusion occurs before any static analysis
 of the pipeline.</para>
 
-<note><para>The effective exclusion of <tag class="attribute">use-when</tag>
+<note xml:id="note-excl-use-when">
+<para>The effective exclusion of <tag class="attribute">use-when</tag>
 processing occurs after XML parsing and has no effect on well-formedness
 or validation errors which will be reported in the usual way. Note also that
 <tag class="attribute">use-when</tag> is not performed when it occurs on the
@@ -2564,13 +2722,51 @@ Expression per <biblioref linkend="xpath2"/> or Match pattern per
   </section>
   <section xml:id="steps">
     <title>Steps</title>
-    <para>This section describes the core steps of XProc.</para>
-    <para>Several of the steps defined in this specification refer to other, evolving XML
-      technologies (XSLT, XQuery, XSL-FO, etc.). Where this specification identifies a specific
-      version of a technology, implementers <rfc2119>must</rfc2119> implement the specified version
-      or any subsequent edition or version that is backwards compatible. At user option, they may
-      support other, incompatible versions or extensions.</para>
-    <section xml:id="p.pipeline"><title>p:pipeline</title><para>A <tag>p:pipeline</tag> declares a
+    <para>This section describes the core language steps of XProc; the full
+vocabulary of standard, atomic steps is described in
+<biblioref linkend="std-components"/>.</para>
+
+<para>The following dynamic errors are described in the atomic step vocabulary.
+They are repeated here so that the list of dynamic errors is wholly contained
+within this specification.</para>
+
+<note xml:id="ednote-dup-derrs" role="editorial">
+<title>Editorial Note</title>
+<para>This is not the right long term solution.</para>
+</note>
+
+<itemizedlist>
+<listitem>
+<para><error code="D0014">It is a
+<glossterm>dynamic error</glossterm> for any unqualified attribute
+names other than “<literal>name</literal>”,
+“<literal>namespace</literal>”, or “<literal>value</literal>” to
+appear on a <code>c:param</code> element.</error></para>
+</listitem>
+<listitem>
+<para><error code="D0025">It is a <glossterm>dynamic
+error</glossterm> if the <tag class="attribute">namespace</tag>
+attribute is specified on <code>c:param</code>,
+the <tag class="attribute">name</tag> contains
+a colon, and the specified namespace is not the same as the in-scope
+namespace binding for the specified prefix.</error></para>
+</listitem>
+<listitem>
+<para><error code="D0018">It is a
+<glossterm>dynamic error</glossterm> if the <code>c:parameter-set</code>
+parameter list contains
+any elements other than <tag>c:param</tag>.</error></para>
+</listitem>
+<listitem>
+<para><error code="D0034">On steps which allow independent specification
+of a namespace and a name, it is a
+<glossterm>dynamic error</glossterm> to specify a new namespace or
+prefix if the lexical value of the specified name contains a
+colon.</error></para>
+</listitem>
+</itemizedlist>
+
+<section xml:id="p.pipeline"><title>p:pipeline</title><para>A <tag>p:pipeline</tag> declares a
         pipeline that can be evaluated by an XProc processor. It encapsulates the behavior of a
           <glossterm>subpipeline</glossterm>. Its children declare inputs, outputs, and options that
         the pipeline exposes and identify the steps in its subpipeline. (A <tag>p:pipeline</tag> is
@@ -2642,15 +2838,22 @@ step declaration. A document that reads:</para>
 &lt;/p:pipeline&gt;</programlisting>
         </example>
       </section></section>
-    <section xml:id="p.for-each"><title>p:for-each</title><para>A for-each is specified by the
-          <tag>p:for-each</tag> element. It is a <glossterm>compound step</glossterm> that processes
-        a sequence of documents, applying its <glossterm>subpipeline</glossterm> to each document in
-        turn.</para>
-      <e:rng-pattern name="ForEach"/>
-      <para>When a pipeline needs to process a sequence of documents using a subpipeline that only
-        processes a single document, the <tag>p:for-each</tag> construct can be used as a wrapper
-        around that subpipeline. The <tag>p:for-each</tag> will apply that subpipeline to each
-        document in the sequence in turn.</para>
+
+<section xml:id="p.for-each">
+<title>p:for-each</title>
+
+<para>A for-each is specified by the <tag>p:for-each</tag> element. It
+is a <glossterm>compound step</glossterm> that processes a sequence of
+documents, applying its <glossterm>subpipeline</glossterm> to each
+document in turn.</para>
+
+<e:rng-pattern name="ForEach"/>
+
+<para>When a pipeline needs to process a sequence of documents using a
+subpipeline that only processes a single document, the
+<tag>p:for-each</tag> construct can be used as a wrapper around that
+subpipeline. The <tag>p:for-each</tag> will apply that subpipeline to
+each document in the sequence in turn.</para>
 <para>The result of the <tag>p:for-each</tag> is a
         sequence of documents produced by processing each individual document in the input sequence.
         If the <tag>p:for-each</tag> has one or more output ports, what appears on each of those
@@ -2753,14 +2956,20 @@ with the <link linkend="dt-standard-modifications">standard modifications</link>
           and <literal>fo-results</literal> ports, respectively, of the <literal>chapters</literal>
           step itself.</para>
       </section></section>
-    <section xml:id="p.viewport"><title>p:viewport</title><para>A viewport is specified by the
-          <tag>p:viewport</tag> element. It is a <glossterm>compound step</glossterm> that processes
-        a single document, applying its <glossterm>subpipeline</glossterm> to one or more subtrees
-        of the document. </para>
-      <e:rng-pattern name="Viewport"/>
-      <para>The result of the <tag>p:viewport</tag> is a copy of the original document where the
-        selected subtrees have been replaced by the results of applying the subpipeline to
-        them.</para>
+
+<section xml:id="p.viewport">
+<title>p:viewport</title>
+
+<para>A viewport is specified by the <tag>p:viewport</tag> element. It
+is a <glossterm>compound step</glossterm> that processes a single XML
+document, applying its <glossterm>subpipeline</glossterm> to one or
+more subtrees of the document. </para>
+
+<e:rng-pattern name="Viewport"/>
+
+<para>The result of the <tag>p:viewport</tag> is a copy of the
+original document where the selected subtrees have been replaced by
+the results of applying the subpipeline to them.</para>
 <para>The <tag>p:viewport-source</tag> is an anonymous input: its
           <glossterm>connection</glossterm> provides a single document to the <tag>p:viewport</tag>
         step. If no document is explicitly provided, then the viewport source is read from the
@@ -3136,8 +3345,8 @@ only to handle recovery and resource cleanup tasks. If cleanup tasks
 require access to readable ports, put them in the <tag>p:catch</tag>
 block of an enclosing <tag>p:try</tag>.</para>
 
-<note role="editorial">
-<title>Ed Note</title>
+<note xml:id="ednote-finally" role="editorial">
+<title>Editorial Note</title>
 <para>I'm not actually sure <tag>p:finally</tag> is worth doing, but
 I've sketched it in for completeness. Also, should <tag>p:catch</tag>
 be entirely optional, allowing just try/group/finally?</para>
@@ -3271,7 +3480,7 @@ can provide some sort of default for the rest of the pipeline.</para>
 
 <section xml:id="p.atomic"><title>Atomic Steps</title><para>In addition to the six step types
         described in the preceding sections, XProc provides a standard library of atomic step types.
-        The full vocabulary of standards steps is described in <xref linkend="std-components"/>.</para>
+        The full vocabulary of standards steps is described in <biblioref linkend="std-components"/>.</para>
 <para>All of the standard, atomic steps are invoked in the same way:</para>
       <e:rng-pattern name="OtherAtomicStep"/>
       <para>Where “<replaceable>p:atomic-step</replaceable>” <rfc2119>must</rfc2119> be in the XProc
@@ -3435,7 +3644,7 @@ or <tag>p:inline</tag> elements in the
 explicit connection is provided by the caller, then the default select
 expression is ignored.</para>
 
-<note>
+<note xml:id="note-pipe-excl">
   <para>The <tag>p:pipe</tag> element is explicitly excluded from a
   declaration because it would make the default value of an input
   dependent on the execution of some part of the pipeline. Default
@@ -3452,23 +3661,34 @@ step.</error></para>
         <para>If no connection is provided for a <glossterm>primary input port</glossterm>, the
           input will be connected to the <glossterm>default readable port</glossterm>. <error code="S0032">It is a <glossterm>static error</glossterm> if no connection is provided
             and the <glossterm>default readable port</glossterm> is undefined.</error></para>
-<para>A
-            <tag class="attribute">select</tag> expression <rfc2119>may</rfc2119> also be provided
-          with a connection. The <tag class="attribute">select</tag> expression, if specified,
-          applies the specified XPath select expression to the document(s) that are read. Each
-          selected node is wrapped in a document (unless it is a document) and provided to the input
-          port. In other
-          words,</para><programlisting language="xml">&lt;p:input port="source"&gt;
+
+<para>A <tag class="attribute">select</tag> expression
+<rfc2119>may</rfc2119> also be provided with a connection.
+The <tag class="attribute">select</tag> expression, if specified, applies the
+specified XPath select expression to the document(s) that are read.
+<error code="D1004">It is a <glossterm>dynamic error</glossterm>
+if the <tag class="attribute">select</tag> is used and any input
+document is not an XML document.</error></para>
+
+<para>Each selected node is wrapped in a document (unless it is a document)
+and provided to the input port. In other words,</para>
+
+<programlisting language="xml">&lt;p:input port="source"&gt;
   &lt;p:document href="http://example.org/input.html"/&gt;
-&lt;/p:input&gt;</programlisting><para>provides
-          a single document,
-          but</para><programlisting language="xml">&lt;p:input port="source" select="//html:div" xmlns:html="http://www.w3.org/1999/xhtml"&gt;
+&lt;/p:input&gt;</programlisting>
+
+<para>provides a single document, but</para>
+
+<programlisting language="xml">&lt;p:input port="source" select="//html:div" xmlns:html="http://www.w3.org/1999/xhtml"&gt;
   &lt;p:document href="http://example.org/input.html"/&gt;
-&lt;/p:input&gt;</programlisting><para>provides
-          a sequence of zero or more documents, one for each <code>html:div</code> in
-            <uri>http://example.org/input.html</uri>. (Note that in the case of nested
-            <code>html:div</code> elements, this may result in the same content being returned in
-          several documents.)</para>
+&lt;/p:input&gt;</programlisting>
+
+<para>provides a sequence of zero or more documents, one for each
+<code>html:div</code> in <uri>http://example.org/input.html</uri>.
+(Note that in the case of nested <code>html:div</code> elements, this
+may result in the same content being returned in several
+documents.)</para>
+
 <para>A select expression can equally be applied to input read
           from another step. This
           input:</para><programlisting language="xml">&lt;p:input port="source" select="//html:div" xmlns:html="http://www.w3.org/1999/xhtml"&gt;
@@ -3577,7 +3797,8 @@ see <tag>p:inline</tag>.</para>
           it appears or if more than one <tag>p:log</tag> element is applied to the same
           port.</error></para>
 <para>Implementations may, at user option, ignore all <tag>p:log</tag>
-        elements.</para><note>
+        elements.</para>
+<note xml:id="note-log-sec-risk">
         <para>This element represents a potential security risk: running unexamined 3rd-party
           pipelines could result in vital system resources being overwritten.</para>
       </note></section>
@@ -3971,7 +4192,9 @@ option or variable are used.</para>
             <tag>p:namespaces</tag> element provides namespace bindings for both of the prefixes
           necessary to correctly interpret the expression ultimately passed to the
             <tag>p:delete</tag> step (the binding for <literal>html:</literal> is explicitly
-          provided and the binding for <literal>h:</literal> is in-scope). </para><note>
+          provided and the binding for <literal>h:</literal> is in-scope). </para>
+
+<note xml:id="note-namespaces">
           <para>The use of <tag>p:namespaces</tag> here, when all of the bindings are provided with
             explicit namespace declarations, is unnecessary. The bindings could simply be placed on
             the parent <tag>p:with-option</tag> element. We use <tag>p:namespaces</tag> here only to
@@ -4107,7 +4330,9 @@ have a <tag class="attribute">version</tag> attribute.
 See <xref linkend="versioning-considerations"/>.</para>
 
       <para>For a description of <tag class="attribute">psvi-required</tag>, see <xref linkend="psvi-support"/>; for <tag class="attribute">xpath-version</tag>, see <xref linkend="xpath-context"/>; for <tag class="attribute">exclude-inline-prefixes</tag>, see
-          <tag>p:inline</tag>.</para><note>
+          <tag>p:inline</tag>.</para>
+
+<note xml:id="note-step-decl">
         <para>The steps declared in a pipeline library are referred to by their type. It is not an
           error to put a <tag>p:pipeline</tag> or <tag>p:declare-step</tag> without a <tag class="attribute">type</tag> in a <tag>p:library</tag>, but there is no standard
           mechanism for instantiating it or referring to it. It is effectively invisible.</para>
@@ -4352,7 +4577,7 @@ document.</error>
 validation.
 </para>
 
-<note>
+<note xml:id="note-document">
         <para>A <tag>p:document</tag> always <emphasis>reads</emphasis> from the specified IRI. In
           the context of a <tag>p:input</tag>, this seems perfectly natural. In the context of a
             <tag>p:output</tag>, this may seem a little asymmetrical. Putting a
@@ -4521,6 +4746,13 @@ in the PSVI, are preserved between steps.</impl></para>
 Requirements</citetitle>.
 Alex Milowski, James Fuller, and Norman Walsh editors.
 W3C Working Draft 5 November 2013.
+</bibliomixed>
+
+<bibliomixed xml:id="std-components"><abbrev>XProc 2.0: Standard Step Library</abbrev>
+<citetitle xlink:href="http://www.w3.org/TR/xproc20-steps/">XProc 2.0:
+Standard Step Library</citetitle>.
+Alex Milowski, Henry Thompson, and Norman Walsh editors.
+W3C Working Draft 15 December 2014.
 </bibliomixed>
 
 <bibliomixed xml:id="xml-infoset-rec"><abbrev>Infoset</abbrev>
@@ -4796,11 +5028,18 @@ P. Koopman. June 2002.
           <biblioref linkend="xml11"/>. Unless otherwise noted, the term
         “<firstterm>XML</firstterm>” refers equally to both versions.</para></glossdef></glossentry><glossentry><glossterm>ancestors</glossterm><glossdef><para>The <firstterm>ancestors</firstterm> of a step, if it has
           any, are its <glossterm>container</glossterm> and the ancestors of its
-          container.</para></glossdef></glossentry><glossentry><glossterm>atomic step</glossterm><glossdef><para>An <firstterm>atomic step</firstterm> is a step that
-          performs a unit of XML processing, such as XInclude or transformation, and has no internal
-            <glossterm>subpipeline</glossterm>. </para></glossdef></glossentry><glossentry><glossterm>attribute value template</glossterm><glossdef><para>An
-<firstterm>attribute value template</firstterm> is FIXME: the obvious
-concept from XSLT.</para></glossdef></glossentry><glossentry><glossterm>bag-merger</glossterm><glossdef><para>The <firstterm>bag-merger</firstterm> of two or more bags
+          container.</para></glossdef></glossentry><glossentry><glossterm>atomic
+step</glossterm><glossdef><para>An <firstterm>atomic
+step</firstterm> is a step that performs a unit of processing
+on its input,
+such as XInclude or transformation, and has no internal
+<glossterm>subpipeline</glossterm>. </para></glossdef></glossentry><glossentry><glossterm>attribute value
+template</glossterm><glossdef><para>In an attribute
+that is designated as an <firstterm>attribute value
+template</firstterm>, an expression can be used by surrounding the
+expression with curly brackets (<code>{}</code>), following the
+general rules for <glossterm>value
+templates</glossterm></para></glossdef></glossentry><glossentry><glossterm>bag-merger</glossterm><glossdef><para>The <firstterm>bag-merger</firstterm> of two or more bags
         (where a bag is an unordered list or, equivalently, something like a set except that it may
         contain duplicates) is a bag constructed by starting with an empty bag and adding each
         member of each of the input bags in turn to it. It follows that the cardinality of the
@@ -4826,7 +5065,10 @@ step are its <firstterm>declared options</firstterm>.</para></glossdef></glossen
 <glossterm>document properties</glossterm>.</para></glossdef></glossentry><glossentry><glossterm>document properties</glossterm><glossdef><para>The
 <firstterm>document properties</firstterm> are exposed to the XProc
 pipeline as a map (<code>map(xs:string, xs:string)</code>).</para></glossdef></glossentry><glossentry><glossterm>dynamic error</glossterm><glossdef><para>A <firstterm>dynamic error</firstterm> is one which
-          occurs while a pipeline is being evaluated.</para></glossdef></glossentry><glossentry><glossterm>empty environment</glossterm><glossdef><para>The <firstterm>empty environment</firstterm>
+          occurs while a pipeline is being evaluated.</para></glossdef></glossentry><glossentry><glossterm>effective
+value</glossterm><glossdef><para>The result of evaluating a
+value template is referred to as its <firstterm>effective
+value</firstterm>.</para></glossdef></glossentry><glossentry><glossterm>empty environment</glossterm><glossdef><para>The <firstterm>empty environment</firstterm>
           contains no readable ports, an undefined default readable port and no in-scope
           bindings.</para></glossdef></glossentry><glossentry><glossterm>empty sequence</glossterm><glossdef><para>An <firstterm>empty sequence</firstterm> of
                 documents is specified with the <tag>p:empty</tag> element.</para></glossdef></glossentry><glossentry><glossterm>environment</glossterm><glossdef><para>The <firstterm>environment</firstterm> is a
@@ -4887,9 +5129,12 @@ default value, are its <firstterm>specified options</firstterm>.</para></glossde
           of a pipeline.</para></glossdef></glossentry><glossentry><glossterm>step type exports</glossterm><glossdef><para>The <firstterm>step type exports</firstterm> of an
         XProc element, against the background of a set of URIs of resources already visited (call
         this set <emphasis>Visited</emphasis>), are defined by cases.</para></glossdef></glossentry><glossentry><glossterm>subpipeline</glossterm><glossdef><para>Sibling steps (and the connections between them) form a
-            <firstterm>subpipeline</firstterm>.</para></glossdef></glossentry><glossentry><glossterm>text value template</glossterm><glossdef><para>A
-<firstterm>text value template</firstterm> is FIXME: the obvious concept from
-XSLT 3.0.</para></glossdef></glossentry><glossentry><glossterm>variable</glossterm><glossdef><para>A <firstterm>variable</firstterm>
+            <firstterm>subpipeline</firstterm>.</para></glossdef></glossentry><glossentry><glossterm>text value template</glossterm><glossdef><para>In a
+text node that is designated as a <firstterm>text value template</firstterm>,
+expressions can be used by surrounding each expression with curly
+brackets (<code>{}</code>).</para></glossdef></glossentry><glossentry><glossterm>value templates</glossterm><glossdef><para>Collectively,
+attribute value templates and text value templates are referred to as
+<firstterm baseform="value template">value templates</firstterm>.</para></glossdef></glossentry><glossentry><glossterm>variable</glossterm><glossdef><para>A <firstterm>variable</firstterm>
 is a name/value pair. The name <rfc2119>must</rfc2119> be an <link xlink:href="http://www.w3.org/TR/REC-xml-names/#dt-expname">expanded
 name</link>. The value may be any XDM value.</para></glossdef></glossentry><glossentry><glossterm>visible</glossterm><glossdef><para>If two names are in the same scope, we say that they
           are <firstterm>visible</firstterm> to each other. </para></glossdef></glossentry></glosslist></appendix>
@@ -5288,7 +5533,7 @@ greater control over parallelism in their implementations.</para>
 
   <para>This parameter has identical semantics to the <code>charset</code>
 parameter of the <code>application/xml</code> media type as
-specified in <xref linkend="rfc3023"/> or its successors.
+specified in <biblioref linkend="rfc3023"/> or its successors.
 </para>
   </listitem>
   </varlistentry>
@@ -5301,7 +5546,7 @@ specified in <xref linkend="rfc3023"/> or its successors.
 <listitem>
 <para>By virtue of XProc content being XML, it has the same
 considerations when sent as <quote><code>application/xproc+xml</code></quote>
-as does XML. See <xref linkend="rfc3023"/>, Section 3.2.
+as does XML. See <biblioref linkend="rfc3023"/>, Section 3.2.
 </para>
 </listitem>
 </varlistentry>
@@ -5310,7 +5555,7 @@ as does XML. See <xref linkend="rfc3023"/>, Section 3.2.
 <term>Security considerations:</term>
 <listitem>
 <para>Several XProc elements may refer to arbitrary URIs.
-In this case, the security issues of <xref linkend="rfc2396"/>, section 7,
+In this case, the security issues of <biblioref linkend="rfc2396"/>, section 7,
 should be considered.</para>
 
 <para>In addition, because of the extensibility features of XProc, it
@@ -5344,7 +5589,7 @@ document.</para>
 <listitem>
 <para>This media type registration is for XProc documents as described by
 this specification which is located at
-<link xlink:href="http://www.w3.org/TR/xproc"/>.</para>
+<link xlink:href="http://www.w3.org/TR/xproc/"/>.</para>
 </listitem>
 </varlistentry>
 
@@ -5427,7 +5672,93 @@ over these specifications.</para>
 the fragment
 identifier notation is exactly that for
 <quote><code>application/xml</code></quote>,
-as specified in <xref linkend="rfc3023"/> or its successors.</para>
+as specified in <biblioref linkend="rfc3023"/> or its successors.</para>
 </section>
 </appendix>
+
+<appendix xml:id="changelog">
+<title>Change Log</title>
+<para>This appendix summarizes significant changes in this
+draft.</para>
+
+<para>This First Public Working Draft contains a number of significant
+changes to the XProc pipeline language. Future drafts will attempt to address
+<link xlink:href="https://github.com/xproc/specification/issues?q=is%3Aopen+is%3Aissue">the remaining issues</link>.</para>
+
+<para>In this draft:</para>
+
+<itemizedlist>
+<listitem>
+<para>An attempt has been made to simplify how parameters are handled.
+There are no more parameter input ports. Instead, parameters are handled
+with a map and an otherwise ordinary option named “<code>parameters</code>”.
+(See issue <link xlink:href="https://github.com/xproc/specification/issues/28">#28</link>)
+</para>
+</listitem>
+<listitem>
+<para>Documents have accessible, arbitrary metadata (key/value pairs).
+(See issue <link xlink:href="https://github.com/xproc/specification/issues/46">#46</link>)
+</para>
+</listitem>
+<listitem>
+<para>Non-XML documents can flow between steps.
+(See issue <link xlink:href="https://github.com/xproc/specification/issues/29">#29</link>)
+</para>
+</listitem>
+<listitem>
+<para>Option shortcut attributes can contain
+<link linkend="attribute-value-templates">attribute value templates</link> and
+inline XML can contain
+<link linkend="text-value-templates">text value templates</link>.
+(See issues <link xlink:href="https://github.com/xproc/specification/issues/33">#33</link>
+and <link xlink:href="https://github.com/xproc/specification/issues/39">#39</link>)
+</para>
+</listitem>
+<listitem>
+<para>The <tag>p:variable</tag> and <tag>p:option</tag> elements may
+specify a value type.
+(See issue <link xlink:href="https://github.com/xproc/specification/issues/62">#62</link>)
+</para>
+</listitem>
+<listitem>
+<para>The <tag>p:inline</tag> can be omitted when the result is
+unambiguous.
+(See issue <link xlink:href="https://github.com/xproc/specification/issues/38">#38</link>)
+</para>
+</listitem>
+<listitem>
+<para>The <tag>p:try</tag> step has been enhanced.
+(See issue <link xlink:href="https://github.com/xproc/specification/issues/50">#50</link>)
+</para>
+</listitem>
+
+<listitem>
+<para>All steps have a primary output port.
+(See issue <link xlink:href="https://github.com/xproc/specification/issues/41">#41</link>)
+</para>
+</listitem>
+<listitem>
+<para>The specification has been split into a language specification
+and standard step library specification.
+(See issue <link xlink:href="https://github.com/xproc/specification/issues/53">#53</link>)
+</para>
+</listitem>
+<listitem>
+<para>A version option has been added to <tag>p:validate-with-xml-schema</tag>.
+(See issue <link xlink:href="https://github.com/xproc/specification/issues/83">#83</link>)
+</para>
+</listitem>
+<listitem>
+<para>A version option has been added to <tag>p:xquery</tag>
+(See issue <link xlink:href="https://github.com/xproc/specification/issues/84">#84</link>)
+</para>
+</listitem>
+<listitem>
+<para>Support for XPath 1.0 has been removed.
+(See issue <link xlink:href="https://github.com/xproc/specification/issues/52">#52</link>)
+</para>
+</listitem>
+</itemizedlist>
+</appendix>
+
 </specification>
