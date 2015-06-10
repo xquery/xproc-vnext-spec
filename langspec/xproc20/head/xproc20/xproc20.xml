@@ -1749,8 +1749,8 @@ do that?</para>
 may, in particular circumstances, contain embedded expressions enclosed
 between curly brackets. Attributes and text nodes that use (or are
 permitted to use) this mechanism are referred to respectively as
-<glossterm>attribute value templates</glossterm> and
-<glossterm>text value templates.</glossterm>.</para>
+<glossterm baseform="attribute value template">attribute value templates</glossterm> and
+<glossterm baseform="text value template">text value templates.</glossterm>.</para>
 
 <para><termdef xml:id="dt-value-template">Collectively,
 attribute value templates and text value templates are referred to as
@@ -1828,7 +1828,7 @@ the new text node.</para>
 that is designated as an <firstterm>attribute value
 template</firstterm>, an expression can be used by surrounding the
 expression with curly brackets (<code>{}</code>), following the
-general rules for <glossterm>value
+general rules for <glossterm baseform="value template">value
 templates</glossterm></termdef>.</para>
 
 <para>Curly brackets are not treated specially in an attribute value
@@ -2608,37 +2608,61 @@ or collections.</error>
           <para>Attributes that are <link linkend="option-shortcut">syntactic shortcuts for option
               values</link> are not shown.</para>
         </listitem>
-      </itemizedlist><para>The types given for attributes should be understood as follows:</para><itemizedlist>
-        <listitem>
-          <para><type>ID</type>, <type>NCName</type>, <type>NMTOKEN</type>, <type>NMTOKENS</type>,
-              <type>anyURI</type>, <type>boolean</type>, <type>integer</type>, <type>string</type>:
-            As per <biblioref linkend="xmlschema-2"/> including whitespace normalization as
-            appropriate.</para>
-        </listitem>
-        <listitem>
-          <para><type>QName</type>: With whitespace normalization as per <biblioref linkend="xmlschema-2"/> and according to the following definition: In the context of
-            XProc, a <type>QName</type> is almost always a QName in the <glossterm>Namespaces in
-              XML</glossterm> sense. Note, however, that <tag>p:option</tag>
-              values can get their namespace declarations in a non-standard
-            way (with <tag>p:namespaces</tag>) and QNames that have no prefix are always in
-            no-namespace, irrespective of the default namespace. </para>
-        </listitem>
-        <listitem>
-          <para><type>PrefixList</type>: As a list with <literal role="infoset-property">item
-              type</literal>
-            <type>NMTOKEN</type>, per <biblioref linkend="xmlschema-2"/>, including whitespace
-            normalization. </para>
-        </listitem>
+      </itemizedlist>
 
-<listitem>
-<para><type>XPathExpression</type>, <type>XSLTMatchPattern</type>: As
-a string per <biblioref linkend="xmlschema-2"/>, including whitespace
-normalization, and the further requirement to be a conformant
-Expression per <biblioref linkend="xpath2"/> or Match pattern per
-<biblioref linkend="xslt20"/>.
-</para>
-        </listitem>
-      </itemizedlist></section>
+<para>The types given for attributes should be understood as follows:</para>
+<itemizedlist>
+  <listitem>
+    <para><type>ID</type>, <type>NCName</type>, <type>NMTOKEN</type>,
+    <type>NMTOKENS</type>, <type>anyURI</type>, <type>boolean</type>,
+    <type>integer</type>, <type>string</type>: As per <biblioref linkend="xmlschema-2"/> including whitespace normalization as
+    appropriate.</para>
+  </listitem>
+  <listitem>
+    <para><type>QName</type>: With whitespace normalization as per
+    <biblioref linkend="xmlschema-2"/> and according to the following
+    definition: In the context of XProc, a <type>QName</type> is
+    almost always a QName in the <glossterm>Namespaces in
+    XML</glossterm> sense. Note, however, that <tag>p:option</tag>
+    values can get their namespace declarations in a non-standard way
+    (with <tag>p:namespaces</tag>) and QNames that have no prefix are
+    always in no-namespace, irrespective of the default namespace.
+    </para>
+  </listitem>
+  <listitem>
+    <para><type>QNameList</type>: As a whitespace separated list of
+    QNames, per the definition above.
+    </para>
+  </listitem>
+  <listitem>
+    <para><type>PrefixList</type>: As a list with <literal role="infoset-property">item type</literal> <type>NMTOKEN</type>,
+    per <biblioref linkend="xmlschema-2"/>, including whitespace
+    normalization.
+    </para>
+  </listitem>
+  <listitem>
+    <para><type>ExcludeInlinePrefixes</type>: As a <type>PrefixList</type>
+    per the definition above, with the following extensions: the tokens
+    <literal>#all</literal> and <literal>#default</literal> may appear.
+    </para>
+  </listitem>
+  <listitem>
+    <para><type>XPathExpression</type>, <type>XSLTMatchPattern</type>:
+    As a string per <biblioref linkend="xmlschema-2"/>, including
+    whitespace normalization, and the further requirement to be a
+    conformant Expression per <biblioref linkend="xpath2"/> or Match
+    pattern per <biblioref linkend="xslt20"/>.
+    </para>
+  </listitem>
+  <listitem>
+    <para><type>MediaTypes</type>:
+    As a whitespace separated list of media types as defined in
+    <biblioref linkend="rfc2046"/>.
+    </para>
+  </listitem>
+</itemizedlist>
+</section>
+
     <section xml:id="common-errors">
       <title>Common errors</title>
       <para>A number of errors apply generally:</para>
@@ -5038,7 +5062,7 @@ template</glossterm><glossdef><para>In an attribute
 that is designated as an <firstterm>attribute value
 template</firstterm>, an expression can be used by surrounding the
 expression with curly brackets (<code>{}</code>), following the
-general rules for <glossterm>value
+general rules for <glossterm baseform="value template">value
 templates</glossterm></para></glossdef></glossentry><glossentry><glossterm>bag-merger</glossterm><glossdef><para>The <firstterm>bag-merger</firstterm> of two or more bags
         (where a bag is an unordered list or, equivalently, something like a set except that it may
         contain duplicates) is a bag constructed by starting with an empty bag and adding each
@@ -5132,7 +5156,7 @@ default value, are its <firstterm>specified options</firstterm>.</para></glossde
             <firstterm>subpipeline</firstterm>.</para></glossdef></glossentry><glossentry><glossterm>text value template</glossterm><glossdef><para>In a
 text node that is designated as a <firstterm>text value template</firstterm>,
 expressions can be used by surrounding each expression with curly
-brackets (<code>{}</code>).</para></glossdef></glossentry><glossentry><glossterm>value templates</glossterm><glossdef><para>Collectively,
+brackets (<code>{}</code>).</para></glossdef></glossentry><glossentry><glossterm>value template</glossterm><glossdef><para>Collectively,
 attribute value templates and text value templates are referred to as
 <firstterm baseform="value template">value templates</firstterm>.</para></glossdef></glossentry><glossentry><glossterm>variable</glossterm><glossdef><para>A <firstterm>variable</firstterm>
 is a name/value pair. The name <rfc2119>must</rfc2119> be an <link xlink:href="http://www.w3.org/TR/REC-xml-names/#dt-expname">expanded
