@@ -3231,7 +3231,7 @@ preceding <tag>p:when</tag> evaluates to true.</para>
   &lt;p:choose&gt;
     &lt;p:when test="/config/output = 'fo'"&gt;
       &lt;p:xslt&gt;
-	&lt;p:with-param name="key" select="$db-key"/&gt;
+	&lt;p:with-option name="parameters" select="map { 'key': $db-key }"/&gt;
 	&lt;p:input port="stylesheet"&gt;
 	  &lt;p:document href="fo.xsl"/&gt;
 	&lt;/p:input&gt;
@@ -3239,7 +3239,7 @@ preceding <tag>p:when</tag> evaluates to true.</para>
     &lt;/p:when&gt;
     &lt;p:when test="/config/output = 'svg'"&gt;
       &lt;p:xslt&gt;
-	&lt;p:with-param name="key" select="$db-key"/&gt;
+	&lt;p:with-option name="parameters" select="map { 'key': $db-key }"/&gt;
 	&lt;p:input port="stylesheet"&gt;
 	  &lt;p:document href="svg.xsl"/&gt;
 	&lt;/p:input&gt;
@@ -3247,7 +3247,7 @@ preceding <tag>p:when</tag> evaluates to true.</para>
     &lt;/p:when&gt;
     &lt;p:otherwise&gt;
       &lt;p:xslt&gt;
-	&lt;p:with-param name="key" select="$db-key"/&gt;
+	&lt;p:with-option name="parameters" select="map { 'key': $db-key }"/&gt;
 	&lt;p:input port="stylesheet"&gt;
 	  &lt;p:document href="html.xsl"/&gt;
 	&lt;/p:input&gt;
